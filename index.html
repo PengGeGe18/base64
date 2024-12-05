@@ -12,7 +12,7 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             line-height: 1.6;
             padding: 20px;
             max-width: 1200px;
@@ -75,6 +75,8 @@
             resize: vertical;
             margin-bottom: 10px;
             font-family: monospace;
+            font-size: 14px;
+            line-height: 1.4;
         }
 
         .btn {
@@ -92,28 +94,6 @@
             background: #45a049;
         }
 
-        .btn:active {
-            transform: translateY(1px);
-        }
-
-        @media (max-width: 768px) {
-            body {
-                padding: 10px;
-            }
-
-            .container {
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 24px;
-            }
-
-            textarea {
-                min-height: 150px;
-            }
-        }
-
         .loading {
             display: none;
             margin: 20px 0;
@@ -126,6 +106,21 @@
             color: #4CAF50;
             text-align: center;
             margin: 10px 0;
+            padding: 10px;
+            background: #e8f5e9;
+            border-radius: 6px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+            }
+            textarea {
+                min-height: 150px;
+            }
         }
     </style>
 </head>
@@ -207,11 +202,11 @@
         function handleFile(file) {
             if (!file) return;
 
-            // 添加文件大小限制检查 (100MB = 100 * 1024 * 1024 bytes)
-            const maxSize = 100 * 1024 * 1024; // 100MB in bytes
+            // 文件大小限制检查 (100MB)
+            const maxSize = 100 * 1024 * 1024;
             if (file.size > maxSize) {
                 alert('文件大小超过限制！请上传小于 100MB 的文件。');
-                fileInput.value = ''; // 清空文件输入
+                fileInput.value = '';
                 return;
             }
 
@@ -227,7 +222,8 @@
             // 读取文件
             const reader = new FileReader();
             reader.onload = function(e) {
-                const base64String = e.target.result;
+                // 去除 Base64 前缀
+                const base64String = e.target.result.split(',')[1];
                 base64Result.value = base64String;
                 
                 // 隐藏加载状态，显示结果
@@ -261,5 +257,4 @@
         }
     </script>
 </body>
-  
 </html> 
